@@ -9,9 +9,16 @@ import SwiftUI
 
 @main
 struct NowPlayingMovieApp: App {
+    @StateObject var movieFetcher = MovieFetcher()
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            MainView()
+                .environmentObject(movieFetcher)
+                .task {
+                    try? await movieFetcher.fetchMovie()
+                
+                }
         }
     }
 }
